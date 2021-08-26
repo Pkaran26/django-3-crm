@@ -28,10 +28,12 @@ def home(request):
     }
     return render(request, 'accounts/dashboard.html', context)
 
+@login_required(login_url='/login')
 def product(request):
     products = Product.objects.all()
     return render(request, 'accounts/product.html', {'products': products})
 
+@login_required(login_url='/login')
 def customer(request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
@@ -43,6 +45,7 @@ def customer(request, pk):
     context = {'customer': customer, 'orders': orders, 'orders_count': orders_count, 'myFilter': myFilter}
     return render(request, 'accounts/customer.html', context)
 
+@login_required(login_url='/login')
 def create_order(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10)
     customer = Customer.objects.get(id=pk)
@@ -59,6 +62,7 @@ def create_order(request, pk):
     context = {'formset': formset}
     return render(request, 'accounts/order_form.html', context)
 
+@login_required(login_url='/login')
 def update_order(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=0)
     order = Order.objects.get(id=pk)
@@ -76,6 +80,7 @@ def update_order(request, pk):
     context = {'formset': formset}
     return render(request, 'accounts/order_form.html', context)
 
+@login_required(login_url='/login')
 def delete_order(request, pk):
     order = Order.objects.get(id=pk)
     if request.method == 'POST':
