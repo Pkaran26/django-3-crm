@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
+# from django.contrib.auth.forms import UserCreationForm
 #from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .models import *
-from .forms import OrderForm
+from .forms import OrderForm, CreateUserForm, LoginUserForm
 from .filters import OrderFilter
 
 def home(request):
@@ -75,3 +78,33 @@ def delete_order(request, pk):
 
     context = {'item': order}
     return render(request, 'accounts/delete.html', context)
+
+def register(request):
+    form = CreateUserForm()#UserCreationForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)#CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Registration successful')
+            return redirect('login')
+        messages.error(request, 'Try again')
+
+    context = {'form': form}
+    return render(request, 'accounts/register.html', context)
+
+def loginPage(request):
+    form = LoginUserForm()
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password1')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'You are logged in')
+            return redirect('/')
+        messages.error(request, 'Invalid username or password')
+
+    context = {'form': form}
+    return render(request, 'accounts/login.html', context)
