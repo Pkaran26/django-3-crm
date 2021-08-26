@@ -7,7 +7,9 @@ from django.contrib import messages
 from .models import *
 from .forms import OrderForm, CreateUserForm, LoginUserForm
 from .filters import OrderFilter
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login')
 def home(request):
     #return HttpResponse('Home')
     orders = Order.objects.all()
@@ -108,3 +110,7 @@ def loginPage(request):
 
     context = {'form': form}
     return render(request, 'accounts/login.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login')
