@@ -28,8 +28,13 @@
     <div class="col-lg-12">
       <div class="card card-body">
         <form class="" method="get">
-          {{ myFilter.form }}
-          <button class="btn btn-primary">Search</button>
+          <div class="form-inline">
+            {% for form in myFilter.form %}
+              <label>{{ form.label }}</label>
+              &nbsp;{{ form }}&nbsp;&nbsp;
+            {% endfor %}
+            <button class="btn btn-primary">Search</button>
+          </div>
         </form>
       </div>
     </div>
