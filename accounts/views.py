@@ -60,16 +60,20 @@ def create_order(request, pk):
     return render(request, 'accounts/order_form.html', context)
 
 def update_order(request, pk):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=0)
     order = Order.objects.get(id=pk)
-    form = OrderForm(instance=order)
+    customer = Customer.objects.get(id=order.customer.id)
+    # form = OrderForm(instance=order)
+    formset = OrderFormSet(queryset=Order.objects.filter(id=pk), instance=customer)
 
     if request.method == 'POST':
+        formset = OrderFormSet(request.POST, instance=customer)
         form = OrderForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
+        if formset.is_valid():
+            formset.save()
             return redirect('/')
 
-    context = {'form': form}
+    context = {'formset': formset}
     return render(request, 'accounts/order_form.html', context)
 
 def delete_order(request, pk):
