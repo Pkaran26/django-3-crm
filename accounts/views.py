@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from .models import *
-from .forms import OrderForm, CreateUserForm, LoginUserForm
+from .forms import CustomerForm, OrderForm, CreateUserForm, LoginUserForm
 from .filters import OrderFilter
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
@@ -157,3 +157,15 @@ def userPage(request):
         'pending': pending
     }
     return render(request, 'accounts/user.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def account_settings(request):
+    form = CustomerForm(instance=request.user.customer)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=request.user.customer)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+    return render(request, 'accounts/account.html', context)

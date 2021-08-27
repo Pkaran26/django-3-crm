@@ -1,0 +1,23 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="card card-body">
+        <a href="{% url 'user_page' %}" class="btn btn-primary">Back to Profile</a>
+        <h4>Account Setting</h4>
+        <hr/>
+        <img src="{{ request.user.customer.profile_pic.url }}" alt="">
+      </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="card card-body">
+        <form enctype="multipart/form-data" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" name="" value="Submit" />
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
