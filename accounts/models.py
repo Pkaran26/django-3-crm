@@ -6,7 +6,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=10, null=True)
     email = models.CharField(max_length=100, null=True)
-    profile_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(default='1.jpg', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
