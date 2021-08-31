@@ -1,0 +1,18 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+  <div class="card card-body">
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+        <tr>
+          <td>{{ book.name }}</td>
+          <td>{{ book.price }}</td>
+          <td><a href="{% url 'book_list' %}" class="btn btn-sm btn-info">Back</a></td>
+        </tr>
+    </table>
+  </div>
+{% endblock %}

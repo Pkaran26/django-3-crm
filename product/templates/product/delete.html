@@ -1,0 +1,11 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+  <div class="card card-body">
+    <form  method="post">
+      {% csrf_token %}
+      Are you sure you want to delete this contact?
+      <input  type="submit"  value="Submit"  />
+    </form>
+  </div>
+{% endblock %}

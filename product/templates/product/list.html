@@ -1,0 +1,24 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+  <div class="card card-body">
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>View</th>
+        <th>Update</th>
+        <th>Remove</th>
+      </tr>
+      {% for book in book_list %}
+        <tr>
+          <td>{{ book.name }}</td>
+          <td>{{ book.price }}</td>
+          <td><a href="{% url 'book_detail' book.id %}" class="btn btn-sm btn-success">View</a></td>
+          <td><a href="{% url 'book_update' book.id %}" class="btn btn-sm btn-info">Update</a></td>
+          <td><a href="{% url 'book_delete' book.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}
